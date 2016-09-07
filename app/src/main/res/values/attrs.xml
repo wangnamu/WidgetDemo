@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="CCMaskLayout">
+        <attr name="loadingText" format="string"/>
+        <attr name="errorText" format="string"/>
+        <attr name="textColor" format="color|reference"/>
+        <attr name="fontSize" format="dimension"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="TimeLineMarker">
+        <attr name="markerSize" format="dimension"/>
+        <attr name="marker" format="color|reference"/>
+        <attr name="beginLine" format="color|reference"/>
+        <attr name="endLine" format="color|reference"/>
+        <attr name="lineSize" format="dimension"/>
+    </declare-styleable>
+
+
+</resources>
