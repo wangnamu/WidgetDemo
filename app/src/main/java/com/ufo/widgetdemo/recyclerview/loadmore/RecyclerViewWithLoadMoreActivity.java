@@ -14,13 +14,17 @@ import com.ufo.widgetdemo.R;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RecyclerViewWithLoadMoreActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
-    private List<DataModel> mData = new ArrayList<>();
     private RecyclerViewWithLoadMoreAdapter mAdapter;
+
+    //线程安全的List
+    private List<DataModel> mData = Collections.synchronizedList(new ArrayList<DataModel>());
+
 
     MyHandler mHandler = new MyHandler(this);
 
@@ -79,16 +83,20 @@ public class RecyclerViewWithLoadMoreActivity extends AppCompatActivity {
 
 
     public void loadMore() {
-        mData.remove(mData.size() - 1);
-        mAdapter.notifyItemRemoved(mData.size());
 
-        int start = mData.size();
-        int end = start + 20;
+        synchronized (mData) {
 
-        addData(start, end);
+            mData.remove(mData.size() - 1);
+            mAdapter.notifyItemRemoved(mData.size());
 
-        mAdapter.notifyDataSetChanged();
-        scrollListener.setLoaded();
+            int start = mData.size();
+            int end = start + 20;
+
+            addData(start, end);
+
+            mAdapter.notifyDataSetChanged();
+            scrollListener.setLoaded();
+        }
     }
 
 

@@ -14,14 +14,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
 
-    public static Map<Integer, String> map = new HashMap<>();
+    public static Map<Integer, String> mMap = new HashMap<>();
+
+    private String mFragmentName = "";
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -40,9 +42,9 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewFragm
 
 
     private void initData() {
-        map.put(0, "RecyclerView");
-        map.put(1, "Dialog");
-        map.put(2, "PopWindow");
+        mMap.put(0, "RecyclerView");
+        mMap.put(1, "Dialog");
+        mMap.put(2, "PopWindow");
     }
 
     @Override
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewFragm
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Action from " + mFragmentName, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -104,8 +106,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewFragm
     }
 
     @Override
-    public void onChangeFab() {
-        Toast.makeText(this,"test",Toast.LENGTH_SHORT).show();
+    public void onChangeFab(String fragmentName) {
+        mFragmentName = fragmentName;
     }
 
 
@@ -129,12 +131,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewFragm
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return map.size();
+            return mMap.size();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return map.get(position);
+            return mMap.get(position);
         }
     }
 }

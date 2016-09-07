@@ -28,15 +28,16 @@ public class RecyclerViewFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public RecyclerViewFragment() {
-        // Required empty public constructor
 
         mData = new ArrayList<>();
         mData.add(new DataModel("RecyclerViewWithRefresh", "下拉刷新", "com.ufo.widgetdemo.recyclerview.refresh.RecyclerViewWithRefreshActivity"));
         mData.add(new DataModel("RecyclerViewWithLoadMore", "上拉更多", "com.ufo.widgetdemo.recyclerview.loadmore.RecyclerViewWithLoadMoreActivity"));
         mData.add(new DataModel("RecyclerViewWithTimeLine","时间轴","com.ufo.widgetdemo.recyclerview.timeline.RecyclerViewWithTimeLineActivity"));
+        mData.add(new DataModel("RecyclerViewWithChecked", "带分组并且支持多选", "com.ufo.widgetdemo.a"));
         mData.add(new DataModel("RecyclerViewWithGroup", "带分组", "com.ufo.widgetdemo.a"));
-        mData.add(new DataModel("RecyclerViewWithSelect", "带分组并且支持复选", "com.ufo.widgetdemo.a"));
-        mData.add(new DataModel("RecyclerViewWithExpand", "带分组并且支持展开", "com.ufo.widgetdemo.a"));
+        mData.add(new DataModel("RecyclerViewWithCardView", "卡片式", "com.ufo.widgetdemo.a"));
+        mData.add(new DataModel("ExpandableListView", "支持展开", "com.ufo.widgetdemo.a"));
+        mData.add(new DataModel("ExpandableCheckedListView", "支持展开并且多选", "com.ufo.widgetdemo.a"));
 
     }
 
@@ -92,7 +93,7 @@ public class RecyclerViewFragment extends Fragment {
     // TODO: Rename method, update argument and hook method into UI event
     public void changeFab() {
         if (mListener != null) {
-            mListener.onChangeFab();
+            mListener.onChangeFab("RecyclerViewFragment");
         }
     }
 
@@ -110,10 +111,6 @@ public class RecyclerViewFragment extends Fragment {
         mListener = null;
     }
 
-
-    public interface OnFragmentInteractionListener {
-        void onChangeFab();
-    }
 
 
     static class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewHolder> {

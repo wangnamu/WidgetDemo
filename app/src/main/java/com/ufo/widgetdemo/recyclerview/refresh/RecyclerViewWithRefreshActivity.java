@@ -15,14 +15,18 @@ import com.ufo.widgetdemo.R;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RecyclerViewWithRefreshActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerViewWithRefreshAdapter mAdapter;
-    private List<DataModel> mData = new ArrayList<>();
     private SwipeRefreshLayout mSwipeLayout;
+
+    //线程安全的List
+    private List<DataModel> mData = Collections.synchronizedList(new ArrayList<DataModel>());
+
 
     private MyHandler mHandler = new MyHandler(this);
 
@@ -72,10 +76,14 @@ public class RecyclerViewWithRefreshActivity extends AppCompatActivity implement
 
 
     public void initData() {
-        for (int i = 0; i < 40; i++) {
-            DataModel dataModel = new DataModel("Title——Item" + i, null, null);
-            mData.add(dataModel);
+
+        synchronized (mData) {
+            for (int i = 0; i < 40; i++) {
+                DataModel dataModel = new DataModel("Title——Item" + i, null, null);
+                mData.add(dataModel);
+            }
         }
+
     }
 
 
