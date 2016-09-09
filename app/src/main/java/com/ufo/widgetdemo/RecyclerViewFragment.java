@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,19 +24,18 @@ public class RecyclerViewFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private MainRecyclerViewAdapter mAdapter;
 
-    private OnFragmentInteractionListener mListener;
-
     public RecyclerViewFragment() {
 
         mData = new ArrayList<>();
         mData.add(new DataModel("RecyclerViewWithRefresh", "下拉刷新", "com.ufo.widgetdemo.recyclerview.refresh.RecyclerViewWithRefreshActivity"));
         mData.add(new DataModel("RecyclerViewWithLoadMore", "上拉更多", "com.ufo.widgetdemo.recyclerview.loadmore.RecyclerViewWithLoadMoreActivity"));
         mData.add(new DataModel("RecyclerViewWithTimeLine","时间轴","com.ufo.widgetdemo.recyclerview.timeline.RecyclerViewWithTimeLineActivity"));
-        mData.add(new DataModel("RecyclerViewWithChecked", "带分组并且支持多选", "com.ufo.widgetdemo.a"));
+        mData.add(new DataModel("RecyclerViewWithChecked", "支持多选", "com.ufo.widgetdemo.a"));
         mData.add(new DataModel("RecyclerViewWithGroup", "带分组", "com.ufo.widgetdemo.a"));
         mData.add(new DataModel("RecyclerViewWithCardView", "卡片式", "com.ufo.widgetdemo.a"));
         mData.add(new DataModel("ExpandableListView", "支持展开", "com.ufo.widgetdemo.a"));
-        mData.add(new DataModel("ExpandableCheckedListView", "支持展开并且多选", "com.ufo.widgetdemo.a"));
+        mData.add(new DataModel("ExpandableCheckedListView", "支持展开并且多选", "com.ufo.widgetdemo.recyclerview.expandchecked.ExpandCheckedActivity"));
+        mData.add(new DataModel("RecyclerViewWithChat", "对话式", "com.ufo.widgetdemo.a"));
 
     }
 
@@ -56,7 +54,6 @@ public class RecyclerViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        changeFab();
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_recycler_view, container, false);
@@ -90,26 +87,18 @@ public class RecyclerViewFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void changeFab() {
-        if (mListener != null) {
-            mListener.onChangeFab("RecyclerViewFragment");
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
+
+
 
 
 

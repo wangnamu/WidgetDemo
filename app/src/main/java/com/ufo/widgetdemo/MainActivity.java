@@ -1,5 +1,6 @@
 package com.ufo.widgetdemo;
 
+import android.animation.Animator;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,19 +12,29 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.ScaleAnimation;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
 
 
     public static Map<Integer, String> mMap = new HashMap<>();
 
     private String mFragmentName = "";
+
+    private FloatingActionButton mFab;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -43,14 +54,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     private void initData() {
         mMap.put(0, "RecyclerView");
-        mMap.put(1, "Dialog");
-        mMap.put(2, "PopWindow");
+        mMap.put(1, "Animation");
+        mMap.put(2, "Other");
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         initData();
 
@@ -68,10 +80,29 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+                animateFab(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
+
+
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Action from " + mFragmentName, Snackbar.LENGTH_LONG)
@@ -105,10 +136,29 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onChangeFab(String fragmentName) {
-        mFragmentName = fragmentName;
-    }
+
+
+//
+//    @Override
+//    public void onRecyclerViewChangeFab(String fragmentName) {
+//        Log.e("onchange2", "--");
+//
+//        mFragmentName = fragmentName;
+//
+//        //mFab.setBackgroundResource(R.drawable.ic_thumb_up_24dp);
+//
+////        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+////            Animator animator = ViewAnimationUtils.createCircularReveal(
+////                    mFab,
+////                    mFab.getWidth() / 2,
+////                    mFab.getHeight() / 2,
+////                    0,
+////                    mFab.getWidth());
+////            animator.setInterpolator(new AccelerateDecelerateInterpolator());
+////            animator.setDuration(500);
+////            animator.start();
+////        }
+//    }
 
 
     /**
@@ -125,7 +175,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return RecyclerViewFragment.newInstance();
+
+            switch (position) {
+                case 0:
+                    return RecyclerViewFragment.newInstance();
+                case 1:
+                    return AnimationFragment.newInstance();
+                default:
+                    return AnimationFragment.newInstance();
+            }
         }
 
         @Override
@@ -139,4 +197,44 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             return mMap.get(position);
         }
     }
+
+
+
+//    int[] colorIntArray = {R.color.walking,R.color.running,R.color.biking,R.color.paddling,R.color.golfing};
+//    int[] iconIntArray = {R.drawable.ic_walk_white,R.drawable.ic_run_white,R.drawable.ic_bike_white,R.drawable.ic_add_white,R.drawable.ic_arrow_back_white};
+
+    protected void animateFab(final int position) {
+        mFab.clearAnimation();
+        // Scale down animation
+        ScaleAnimation shrink =  new ScaleAnimation(1f, 0, 1f, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        shrink.setDuration(150);     // animation duration in milliseconds
+        shrink.setInterpolator(new DecelerateInterpolator());
+        shrink.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                // Change FAB color and icon
+//                fab.setBackgroundTintList(getResources().getColorStateList(colorIntArray[position]));
+//                fab.setImageDrawable(getResources().getDrawable(iconIntArray[position], null));
+
+                // Scale up animation
+                ScaleAnimation expand =  new ScaleAnimation(0, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                expand.setDuration(150);     // animation duration in milliseconds
+                expand.setInterpolator(new AccelerateInterpolator());
+                mFab.startAnimation(expand);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        mFab.startAnimation(shrink);
+    }
+
+
 }

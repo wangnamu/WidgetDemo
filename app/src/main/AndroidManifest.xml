@@ -33,6 +33,9 @@
             android:name=".recyclerview.timeline.RecyclerViewWithTimeLineActivity"
             android:label="RecyclerViewWithTimeLineActivity">
         </activity>
+        <activity android:name=".recyclerview.expandchecked.ExpandCheckedActivity"
+            android:label="ExpandCheckedActivity">
+        </activity>
     </application>
 
 </manifest>
