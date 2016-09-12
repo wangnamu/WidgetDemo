@@ -100,8 +100,6 @@ public class RecyclerViewFragment extends Fragment {
 
 
 
-
-
     static class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewHolder> {
 
         private List<DataModel> mData;

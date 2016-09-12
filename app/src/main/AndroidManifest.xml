@@ -33,8 +33,11 @@
             android:name=".recyclerview.timeline.RecyclerViewWithTimeLineActivity"
             android:label="RecyclerViewWithTimeLineActivity">
         </activity>
-        <activity android:name=".recyclerview.expandchecked.ExpandCheckedActivity"
+        <activity
+            android:name=".recyclerview.expandchecked.ExpandCheckedActivity"
             android:label="ExpandCheckedActivity">
+        </activity>
+        <activity android:name=".animation.fabwithtoolbar.FabWithToolbarActivity">
         </activity>
     </application>
 

@@ -25,6 +25,7 @@ android {
                             'src/main/res',
                             'src/main/res/layout',
                             'src/main/res/layout/recyclerview',
+                            'src/main/res/layout/animation',
                             'src/main/res/layout/dialog',
                             'src/main/res/layout/popwindow'
                     ]
