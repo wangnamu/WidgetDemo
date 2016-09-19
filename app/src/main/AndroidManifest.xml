@@ -38,9 +38,13 @@
             android:name=".recyclerview.expandchecked.ExpandCheckedActivity"
             android:label="ExpandCheckedActivity">
         </activity>
-        <activity android:name=".animation.fabwithtoolbar.FabWithToolbarActivity">
+        <activity
+            android:name=".animation.fabwithtoolbar.FabWithToolbarActivity"
+            android:label="FabWithToolbarActivity">
         </activity>
-        <activity android:name=".recyclerview.cardview.RecyclerViewWithCardViewActivity">
+        <activity
+            android:name=".recyclerview.cardview.RecyclerViewWithCardViewActivity"
+            android:label="RecyclerViewWithCardViewActivity">
         </activity>
     </application>
 

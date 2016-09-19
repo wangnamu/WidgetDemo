@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.ufo.widgetdemo.R;
 
 import java.util.ArrayList;
@@ -158,11 +157,7 @@ public class RecyclerViewWithCardViewActivity extends AppCompatActivity {
 
     public static class CardViewHolder1 extends RecyclerView.ViewHolder {
 
-        /*
-        这里由于使用了gilde的图像变换方法CircleTransform,所以可以完全使用ImageView来
-        代替RoundedImageView,RoundedImageView更多的适合用来显示本地图片
-        */
-        private RoundedImageView mIcon;
+        private ImageView mIcon;
         private TextView mTitle;
         private TextView mSubhead;
         private ImageView mImage;
@@ -176,7 +171,7 @@ public class RecyclerViewWithCardViewActivity extends AppCompatActivity {
 
         public CardViewHolder1(final View itemView) {
             super(itemView);
-            mIcon = (RoundedImageView) itemView.findViewById(R.id.icon);
+            mIcon = (ImageView) itemView.findViewById(R.id.icon);
             mTitle = (TextView) itemView.findViewById(R.id.title);
             mSubhead = (TextView) itemView.findViewById(R.id.subhead);
             mImage = (ImageView) itemView.findViewById(R.id.bigImage);
@@ -250,7 +245,7 @@ public class RecyclerViewWithCardViewActivity extends AppCompatActivity {
 
 
     /**
-     * glide 圆形变换工具
+     * glide 圆形转换
      */
     public static class CircleTransform extends BitmapTransformation {
         public CircleTransform(Context context) {

@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     return AnimationFragment.newInstance();
                 default:
-                    return AnimationFragment.newInstance();
+                    return OtherFragment.newInstance();
             }
         }
 
