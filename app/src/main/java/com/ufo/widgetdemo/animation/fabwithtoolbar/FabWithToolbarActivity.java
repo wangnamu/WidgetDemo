@@ -1,20 +1,20 @@
 package com.ufo.widgetdemo.animation.fabwithtoolbar;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import com.konifar.fab_transformation.FabTransformation;
+import com.bowyer.app.fabtoolbar.FabToolbar;
 import com.ufo.widgetdemo.DataModel;
 import com.ufo.widgetdemo.R;
 import com.ufo.widgetdemo.common.DividerItemDecoration;
@@ -27,13 +27,12 @@ public class FabWithToolbarActivity extends AppCompatActivity {
 
     private List<DataModel> mData;
 
+    private ActionBar mActionBar;
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
 
     private FloatingActionButton mFab;
-    private View mToolbarFooter;
-
-    private boolean isTransforming;
+    private FabToolbar mFabToolbar;
 
 
     @Override
@@ -41,18 +40,60 @@ public class FabWithToolbarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fab_with_toolbar);
 
+        initData();
+        initActionBar();
+
+        initControl();
+        initFabToolbar();
+
+    }
+
+
+    private void initActionBar() {
+        mActionBar = getSupportActionBar();
+        if (mActionBar != null) {
+            mActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+    }
+
+    private void initData() {
         mData = new ArrayList<>();
 
         for (int i = 0; i < 20; i++) {
             DataModel dataModel = new DataModel("Title" + i, "SubHead" + i, null);
             mData.add(dataModel);
         }
+    }
 
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
+    private void initFabToolbar() {
 
         mFab = (FloatingActionButton) findViewById(R.id.fab);
-        mToolbarFooter = findViewById(R.id.toolbar_footer);
+        mFabToolbar = (FabToolbar) findViewById(R.id.fabtoolbar);
+
+        mRecyclerView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                mFabToolbar.collapse();
+            }
+        });
+
+        mFabToolbar.setFab(mFab);
+
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFabToolbar.expandFab();
+            }
+        });
+
+    }
+
+
+    private void initControl() {
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.main_recycler_view);
 
         mAdapter = new RecyclerViewAdapter(mData, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -62,48 +103,29 @@ public class FabWithToolbarActivity extends AppCompatActivity {
 
         mRecyclerView.setAdapter(mAdapter);
 
-
-        mRecyclerView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                if (mFab.getVisibility() != View.VISIBLE && !isTransforming) {
-                    FabTransformation.with(mFab)
-                            .setListener(new FabTransformation.OnTransformListener() {
-                                @Override
-                                public void onStartTransform() {
-                                    isTransforming = true;
-                                }
-
-                                @Override
-                                public void onEndTransform() {
-                                    isTransforming = false;
-                                }
-                            })
-                            .transformFrom(mToolbarFooter);
-                }
-            }
-        });
-
-
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mFab.getVisibility() == View.VISIBLE) {
-                    FabTransformation.with(mFab).transformTo(mToolbarFooter);
-                }
-            }
-        });
-
-
     }
 
     @Override
     public void onBackPressed() {
-        if (mFab.getVisibility() != View.VISIBLE) {
-            FabTransformation.with(mFab).transformFrom(mToolbarFooter);
+        if (mFabToolbar.isFabExpanded()) {
+            mFabToolbar.collapse();
             return;
         }
+        finish();
         super.onBackPressed();
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -137,6 +159,7 @@ public class FabWithToolbarActivity extends AppCompatActivity {
             return mData.size();
         }
     }
+
 
     static class RecyclerViewViewHolder extends RecyclerView.ViewHolder {
 

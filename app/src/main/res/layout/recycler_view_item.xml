@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="72dp"
-              android:background="@drawable/recycler_view_item_bg"
+              android:foreground="?attr/selectableItemBackground"
               android:gravity="center_vertical"
               android:orientation="vertical"
               android:paddingLeft="16dp"
@@ -12,7 +12,6 @@
         android:id="@+id/recycler_view_item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="@color/colorPrimaryText"/>
 
@@ -20,8 +19,6 @@
         android:id="@+id/recycler_view_item_subhead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/colorSecondaryText"/>
 
