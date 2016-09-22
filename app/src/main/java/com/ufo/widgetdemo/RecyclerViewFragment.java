@@ -31,7 +31,7 @@ public class RecyclerViewFragment extends Fragment {
         mData.add(new DataModel("RecyclerViewWithLoadMore", "上拉更多", "com.ufo.widgetdemo.recyclerview.loadmore.RecyclerViewWithLoadMoreActivity"));
         mData.add(new DataModel("RecyclerViewWithTimeLine","时间轴","com.ufo.widgetdemo.recyclerview.timeline.RecyclerViewWithTimeLineActivity"));
         mData.add(new DataModel("RecyclerViewWithChecked", "支持多选", "com.ufo.widgetdemo.a"));
-        mData.add(new DataModel("RecyclerViewWithGroup", "带分组", "com.ufo.widgetdemo.a"));
+        mData.add(new DataModel("RecyclerViewWithGroup", "带分组", "com.ufo.widgetdemo.recyclerview.sticky.StickyListActivity"));
         mData.add(new DataModel("RecyclerViewWithCardView", "卡片式", "com.ufo.widgetdemo.recyclerview.cardview.RecyclerViewWithCardViewActivity"));
         mData.add(new DataModel("ExpandableListView", "支持展开", "com.ufo.widgetdemo.a"));
         mData.add(new DataModel("ExpandableCheckedListView", "支持展开并且多选", "com.ufo.widgetdemo.recyclerview.expandchecked.ExpandCheckedActivity"));
