@@ -27,7 +27,11 @@ public class AnimationFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private MainRecyclerViewAdapter mAdapter;
 
+    private OnFragmentInteractionListener mListener;
 
+    public void setListener(OnFragmentInteractionListener listener) {
+        mListener = listener;
+    }
 
     public AnimationFragment() {
         // Required empty public constructor
@@ -88,17 +92,32 @@ public class AnimationFragment extends Fragment {
 
 
 
+    //Fragment显示隐藏
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && mListener != null) {
+            mListener.onFragmentInteraction("AnimationViewFragment");
+        }
+    }
+
 
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
-
 
     @Override
     public void onDetach() {
         super.onDetach();
+        mListener = null;
     }
 
 

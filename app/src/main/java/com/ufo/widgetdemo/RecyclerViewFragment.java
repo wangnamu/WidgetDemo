@@ -24,12 +24,19 @@ public class RecyclerViewFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private MainRecyclerViewAdapter mAdapter;
 
+    private OnFragmentInteractionListener mListener;
+
+    public void setListener(OnFragmentInteractionListener listener) {
+        mListener = listener;
+    }
+
+
     public RecyclerViewFragment() {
 
         mData = new ArrayList<>();
         mData.add(new DataModel("RecyclerViewWithRefresh", "下拉刷新", "com.ufo.widgetdemo.recyclerview.refresh.RecyclerViewWithRefreshActivity"));
         mData.add(new DataModel("RecyclerViewWithLoadMore", "上拉更多", "com.ufo.widgetdemo.recyclerview.loadmore.RecyclerViewWithLoadMoreActivity"));
-        mData.add(new DataModel("RecyclerViewWithTimeLine","时间轴","com.ufo.widgetdemo.recyclerview.timeline.RecyclerViewWithTimeLineActivity"));
+        mData.add(new DataModel("RecyclerViewWithTimeLine", "时间轴", "com.ufo.widgetdemo.recyclerview.timeline.RecyclerViewWithTimeLineActivity"));
         mData.add(new DataModel("RecyclerViewWithChecked", "支持多选", "com.ufo.widgetdemo.a"));
         mData.add(new DataModel("RecyclerViewWithGroup", "带分组", "com.ufo.widgetdemo.recyclerview.sticky.StickyListActivity"));
         mData.add(new DataModel("RecyclerViewWithCardView", "卡片式", "com.ufo.widgetdemo.recyclerview.cardview.RecyclerViewWithCardViewActivity"));
@@ -88,16 +95,32 @@ public class RecyclerViewFragment extends Fragment {
     }
 
 
+    //Fragment显示隐藏
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && mListener != null) {
+            mListener.onFragmentInteraction("RecyclerViewFragment");
+        }
+    }
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        mListener = null;
     }
-
 
 
     static class MainRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewHolder> {
