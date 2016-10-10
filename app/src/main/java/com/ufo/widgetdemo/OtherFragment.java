@@ -27,10 +27,6 @@ public class OtherFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public void setListener(OnFragmentInteractionListener listener) {
-        mListener = listener;
-    }
-
     public OtherFragment() {
         mData = new ArrayList<>();
         mData.add(new DataModel("none", "遮罩", ""));

@@ -23,7 +23,7 @@ import android.view.animation.ScaleAnimation;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
 
     public static Map<Integer, String> mMap = new HashMap<>();
@@ -199,14 +199,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     }
 
 
-
 //    int[] colorIntArray = {R.color.walking,R.color.running,R.color.biking,R.color.paddling,R.color.golfing};
 //    int[] iconIntArray = {R.drawable.ic_walk_white,R.drawable.ic_run_white,R.drawable.ic_bike_white,R.drawable.ic_add_white,R.drawable.ic_arrow_back_white};
 
     protected void animateFab(final int position) {
         mFab.clearAnimation();
         // Scale down animation
-        ScaleAnimation shrink =  new ScaleAnimation(1f, 0, 1f, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        ScaleAnimation shrink = new ScaleAnimation(1f, 0, 1f, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         shrink.setDuration(150);     // animation duration in milliseconds
         shrink.setInterpolator(new DecelerateInterpolator());
         shrink.setAnimationListener(new Animation.AnimationListener() {
@@ -222,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 //                fab.setImageDrawable(getResources().getDrawable(iconIntArray[position], null));
 
                 // Scale up animation
-                ScaleAnimation expand =  new ScaleAnimation(0, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                ScaleAnimation expand = new ScaleAnimation(0, 1f, 0f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                 expand.setDuration(150);     // animation duration in milliseconds
                 expand.setInterpolator(new AccelerateInterpolator());
                 mFab.startAnimation(expand);

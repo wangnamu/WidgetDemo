@@ -29,9 +29,6 @@ public class AnimationFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public void setListener(OnFragmentInteractionListener listener) {
-        mListener = listener;
-    }
 
     public AnimationFragment() {
         // Required empty public constructor
