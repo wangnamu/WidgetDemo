@@ -13,5 +13,6 @@
     <dimen name="chat_content_margin">10dp</dimen>
     <dimen name="chat_content_min_height">40dp</dimen>
     <dimen name="chat_progress_width">24dp</dimen>
+    <dimen name="chat_item_radius">30dp</dimen>
 
 </resources>

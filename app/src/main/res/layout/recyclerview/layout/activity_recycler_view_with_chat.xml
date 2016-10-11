@@ -32,7 +32,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="4dp"
-            android:src="@drawable/ic_attachment_24dp"/>
+            android:src="@drawable/ic_add_24dp"/>
 
 
         <ImageButton
@@ -56,7 +56,7 @@
             android:layout_toLeftOf="@+id/btn_send"
             android:layout_toRightOf="@+id/btn_other"
             android:background="@color/colorIcons"
-            android:hint="发送消息"
+            android:hint="发送消息..."
             android:imeOptions="actionSend"
             android:maxLines="1"
             android:minHeight="46dp"

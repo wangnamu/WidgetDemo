@@ -24,10 +24,10 @@ import com.ufo.widgetdemo.R;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class RecyclerViewWithChatActivity extends AppCompatActivity {
 
@@ -48,6 +48,7 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
     private int mRootBottom = Integer.MIN_VALUE;
 
     private MyHandler mHandler = new MyHandler(this);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
         chatModel1.setDataType(DataType.Text);
         chatModel1.setHeadPortrait(PORTRAIT_GUEST);
         try {
-            chatModel1.setDate(string2date("2016-10-01 10:00:00", "yyyy-MM-dd HH:mm:ss"));
+            chatModel1.setDate(Utils.string2date("2016-10-01 10:00:00", "yyyy-MM-dd HH:mm:ss"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -82,7 +83,7 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
         chatModel2.setDataType(DataType.Text);
         chatModel2.setHeadPortrait(PORTRAIT_HOST);
         try {
-            chatModel2.setDate(string2date("2016-10-01 10:10:00", "yyyy-MM-dd HH:mm:ss"));
+            chatModel2.setDate(Utils.string2date("2016-10-01 10:10:00", "yyyy-MM-dd HH:mm:ss"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -94,7 +95,7 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
         chatModel3.setDataType(DataType.Image);
         chatModel3.setHeadPortrait(PORTRAIT_GUEST);
         try {
-            chatModel3.setDate(string2date("2016-10-01 11:00:00", "yyyy-MM-dd HH:mm:ss"));
+            chatModel3.setDate(Utils.string2date("2016-10-01 11:00:00", "yyyy-MM-dd HH:mm:ss"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -106,7 +107,7 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
         chatModel4.setDataType(DataType.Text);
         chatModel4.setHeadPortrait(PORTRAIT_GUEST);
         try {
-            chatModel4.setDate(string2date("2016-10-02 08:00:00", "yyyy-MM-dd HH:mm:ss"));
+            chatModel4.setDate(Utils.string2date("2016-10-07 08:00:00", "yyyy-MM-dd HH:mm:ss"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -119,7 +120,7 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
         chatModel5.setDataType(DataType.Image);
         chatModel5.setHeadPortrait(PORTRAIT_HOST);
         try {
-            chatModel5.setDate(string2date("2016-10-02 08:03:00", "yyyy-MM-dd HH:mm:ss"));
+            chatModel5.setDate(Utils.string2date("2016-10-09 08:03:00", "yyyy-MM-dd HH:mm:ss"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -132,6 +133,7 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
 
         mAdapter = new RecyclerViewWithChatAdapter(mData, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
@@ -226,8 +228,11 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
 //        rt.play();
 
 
-        chatModel.setSendStatusType(SendStatusType.Sended);
-        mAdapter.notifyItemChanged(position);
+        boolean result = new Random().nextBoolean();
+
+        chatModel.setSendStatusType(result == true ? SendStatusType.Sended : SendStatusType.Error);
+
+        mAdapter.notifyItemChanged(position, chatModel);
 
     }
 
@@ -298,12 +303,6 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
             im.hideSoftInputFromWindow(token,
                     InputMethodManager.HIDE_NOT_ALWAYS);
         }
-    }
-
-
-    public static Date string2date(String date, String format) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
-        return dateFormat.parse(date);
     }
 
 

@@ -2,14 +2,20 @@ package com.ufo.widgetdemo.recyclerview.chat;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.ufo.widgetdemo.R;
+
+import java.util.Date;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by tjpld on 2016/9/26.
@@ -46,6 +52,74 @@ public class GuestViewHolder extends RecyclerView.ViewHolder {
 
     }
 
+    public void setTopTime(int position, Date current, Date last) {
+        if (position == 0) {
+            mTopTime.setText(Utils.date2string(current));
+            mTopTime.setVisibility(View.VISIBLE);
+        } else if (Utils.in15Min(last, current)) {
+            mTopTime.setText(Utils.date2string(current));
+            mTopTime.setVisibility(View.VISIBLE);
+        } else {
+            mTopTime.setVisibility(View.GONE);
+        }
+    }
+
+    public void setHolder(Context context, ChatModel chatModel) {
+
+        if (chatModel.getDataType() == DataType.Text) {
+
+            showFieldText(context);
+
+            mContent.setText(chatModel.getContent());
+
+            Glide.with(context)
+                    .load(chatModel.getHeadPortrait())
+                    .placeholder(R.drawable.ic_placeholder_round)
+                    .bitmapTransform(new CenterCrop(context), new CropCircleTransformation(context))
+                    .dontAnimate()
+                    .into(mHeadPortrait);
+
+//            int sendStatus = chatModel.getSendStatusType();
+//
+//            if (sendStatus == SendStatusType.Sending) {
+//                showProgress();
+//            } else if (sendStatus == SendStatusType.Sended) {
+//                hideProgress();
+//            }
+
+
+        } else {
+
+            showFieldImage(context);
+
+            Glide.with(context)
+                    .load(chatModel.getHeadPortrait())
+                    .placeholder(R.drawable.ic_placeholder_round)
+                    .bitmapTransform(new CenterCrop(context), new CropCircleTransformation(context))
+                    .dontAnimate()
+                    .into(mHeadPortrait);
+
+            Glide.with(context)
+                    .load(chatModel.getContent())
+                    .thumbnail(0.1f)
+                    .placeholder(R.drawable.ic_placeholder)
+                    .override(500, 500)
+                    .bitmapTransform(new FitCenter(context),
+                            new RoundedCornersTransformation(context, context.getResources().getDimensionPixelOffset(R.dimen.chat_item_radius), 0))
+                    .dontAnimate()
+                    .into(mImage);
+
+//            int sendStatus = chatModel.getSendStatusType();
+//
+//            if (sendStatus == SendStatusType.Sending) {
+//                showProgress();
+//            } else if (sendStatus == SendStatusType.Sended) {
+//                hideProgress();
+//            }
+
+        }
+    }
+
 
     private void setContentWith(Context context) {
 
@@ -54,46 +128,39 @@ public class GuestViewHolder extends RecyclerView.ViewHolder {
         int progress_width = context.getResources().getDimensionPixelOffset(R.dimen.chat_progress_width);
         int parent_padding = context.getResources().getDimensionPixelOffset(R.dimen.activity_horizontal_margin) * 2;
 
-        mContent.setMaxWidth(getScreenWidth(context) - content_margin - headPortrait_width - progress_width - parent_padding);
+        mContent.setMaxWidth(Utils.getScreenWidth(context) - content_margin - headPortrait_width - progress_width - parent_padding);
     }
 
 
-    public void showFieldText(Context context) {
+    private void showFieldText(Context context) {
         mFieldText.setVisibility(View.VISIBLE);
         mFieldImage.setVisibility(View.GONE);
 
         setContentWith(context);
     }
 
-    public void showFieldImage(Context context) {
+    private void showFieldImage(Context context) {
         mFieldText.setVisibility(View.GONE);
         mFieldImage.setVisibility(View.VISIBLE);
     }
 
-    public void showProgress() {
-        if (mFieldText.getVisibility() == View.VISIBLE) {
-            mContentProgressBar.setVisibility(View.VISIBLE);
-        }
-        else {
-            mImageProgressBar.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void hideProgress() {
-        if (mFieldText.getVisibility() == View.VISIBLE) {
-            mContentProgressBar.setVisibility(View.GONE);
-        }
-        else {
-            mImageProgressBar.setVisibility(View.GONE);
-        }
-    }
+//    public void showProgress() {
+//        if (mFieldText.getVisibility() == View.VISIBLE) {
+//            mContentProgressBar.setVisibility(View.VISIBLE);
+//        } else {
+//            mImageProgressBar.setVisibility(View.VISIBLE);
+//        }
+//    }
+//
+//    public void hideProgress() {
+//        if (mFieldText.getVisibility() == View.VISIBLE) {
+//            mContentProgressBar.setVisibility(View.GONE);
+//        } else {
+//            mImageProgressBar.setVisibility(View.GONE);
+//        }
+//    }
 
 
-    private int getScreenWidth(Context context) {
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        int width = dm.widthPixels;
-        return width;
-    }
 
 
 
