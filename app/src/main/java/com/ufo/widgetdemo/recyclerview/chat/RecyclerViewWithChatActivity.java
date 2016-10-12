@@ -1,9 +1,9 @@
 package com.ufo.widgetdemo.recyclerview.chat;
 
-import android.content.Context;
-import android.graphics.Rect;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,13 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ufo.widgetdemo.R;
@@ -29,7 +24,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-public class RecyclerViewWithChatActivity extends AppCompatActivity {
+import sj.keyboard.widget.FuncLayout;
+
+import static android.support.v7.widget.RecyclerView.SCROLL_STATE_DRAGGING;
+
+public class RecyclerViewWithChatActivity extends AppCompatActivity implements FuncLayout.OnFuncKeyBoardListener {
 
     private static final String KEY_CHAT = "KEY_CHAT";
     private static final String KEY_POSITION = "KEY_POSITION";
@@ -41,11 +40,7 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
     private RecyclerViewWithChatAdapter mAdapter;
     private List<ChatModel> mData;
 
-    private ImageButton mImageButtonSend;
-    private EditText mEditText;
-
-    private View mRoot;
-    private int mRootBottom = Integer.MIN_VALUE;
+    private MyKeyBoard mEkBar;
 
     private MyHandler mHandler = new MyHandler(this);
 
@@ -57,8 +52,7 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
 
         initData();
         initRecyclerView();
-        initControl();
-
+        initKeyBoardBar();
     }
 
 
@@ -139,32 +133,40 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
 
         mRecyclerView.setAdapter(mAdapter);
 
-    }
-
-    private void initControl() {
-
-        mRoot = findViewById(R.id.root);
-        mRoot.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onGlobalLayout() {
-                Rect r = new Rect();
-                mRoot.getGlobalVisibleRect(r);
-                // 进入Activity时会布局，第一次调用onGlobalLayout，先记录开始软键盘没有弹出时底部的位置
-                if (mRootBottom == Integer.MIN_VALUE) {
-                    mRootBottom = r.bottom;
-                    return;
-                }
-                // adjustResize，软键盘弹出后高度会变小
-                if (r.bottom < mRootBottom) {
-                    mRecyclerView.smoothScrollToPosition(mData.size());
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == SCROLL_STATE_DRAGGING) {
+                    mEkBar.reset();
                 }
             }
         });
 
+    }
 
-        mEditText = (EditText) findViewById(R.id.edit_message);
-        mEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+    private void initKeyBoardBar() {
+
+        mEkBar = (MyKeyBoard) findViewById(R.id.ek_bar);
+
+        mEkBar.addOnFuncKeyBoardListener(this);
+        mEkBar.addFuncView(new MyOhterGridView(this));
+
+
+        mEkBar.getImageButtonSend().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendText();
+            }
+        });
+
+//        mEkBar.getEtChat().setOnSizeChangedListener(new EmoticonsEditText.OnSizeChangedListener() {
+//            @Override
+//            public void onSizeChanged(int w, int h, int oldw, int oldh) {
+//                scrollToBottom();
+//            }
+//        });
+
+        mEkBar.getEtChat().setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 
@@ -178,19 +180,11 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
         });
 
 
-        mImageButtonSend = (ImageButton) findViewById(R.id.btn_send);
-        mImageButtonSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendText();
-            }
-        });
-
     }
 
 
     private void sendText() {
-        String content = mEditText.getText().toString().trim();
+        String content = mEkBar.getEtChat().getText().toString().trim();
         if (!TextUtils.isEmpty(content)) {
 
             ChatModel chatModel = new ChatModel();
@@ -204,9 +198,10 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
 
             int position = mData.size() - 1;
             mAdapter.notifyItemInserted(position);
-            mRecyclerView.smoothScrollToPosition(position);
+            //mRecyclerView.smoothScrollToPosition(position);
+            scrollToPosition(position);
 
-            mEditText.getText().clear();
+            mEkBar.getEtChat().getText().clear();
 
             Message msg = new Message();
 
@@ -226,7 +221,6 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
 //        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);//系统自带提示音
 //        Ringtone rt = RingtoneManager.getRingtone(getApplicationContext(), uri);
 //        rt.play();
-
 
         boolean result = new Random().nextBoolean();
 
@@ -261,48 +255,30 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity {
     }
 
 
-    //触摸屏幕隐藏键盘
+    private void scrollToPosition(final int position) {
+        mRecyclerView.requestLayout();
+        mRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                mRecyclerView.smoothScrollToPosition(position);
+            }
+        });
+    }
+
+
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-
-            View v = getCurrentFocus();
-
-            if (isShouldHideInput(v, ev)) {
-                mEditText.clearFocus();
-                hideSoftInput(v.getWindowToken());
-            }
-        }
-        return super.dispatchTouchEvent(ev);
+    public void OnFuncPop(int height) {
+        scrollToPosition(mData.size() - 1);
     }
 
-
-    //键盘可否隐藏
-    private boolean isShouldHideInput(View v, MotionEvent event) {
-
-        if (v != null && (v instanceof EditText)) {
-            int[] l = {0, 0};
-            View t = findViewById(R.id.toolbar);
-            t.getLocationInWindow(l);
-            int left = l[0], top = l[1], bottom = top + t.getHeight(), right = left
-                    + t.getWidth();
-            if (event.getX() > left && event.getX() < right
-                    && event.getY() > top && event.getY() < bottom) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-        return false;
+    @Override
+    public void OnFuncClose() {
     }
 
-    //隐藏键盘
-    private void hideSoftInput(IBinder token) {
-        if (token != null) {
-            InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            im.hideSoftInputFromWindow(token,
-                    InputMethodManager.HIDE_NOT_ALWAYS);
-        }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mEkBar.reset();
     }
 
 

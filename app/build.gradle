@@ -45,12 +45,12 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
     //动画
     compile project(':fabtoolbar')
     //带分组控件
     compile project(':sticky-headers-recyclerview')
     compile project(':material-scrollbar')
+    compile project(':xhsEmoticonsKeyboard')
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
@@ -60,6 +60,6 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     //图片变形
     compile 'jp.wasabeef:glide-transformations:2.0.1'
-
     testCompile 'junit:junit:4.12'
+
 }

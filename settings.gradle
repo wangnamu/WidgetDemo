@@ -1,1 +1,1 @@
-include ':app', ":fabtoolbar", ':sticky-headers-recyclerview', ':material-scrollbar'
+include ':app', ":fabtoolbar", ':sticky-headers-recyclerview', ':material-scrollbar', ':xhsEmoticonsKeyboard'

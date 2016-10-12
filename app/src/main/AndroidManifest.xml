@@ -47,8 +47,7 @@
         </activity>
         <activity android:name=".recyclerview.sticky.StickyListActivity">
         </activity>
-        <activity android:name=".recyclerview.chat.RecyclerViewWithChatActivity"
-                  android:windowSoftInputMode="stateHidden|adjustResize" >
+        <activity android:name=".recyclerview.chat.RecyclerViewWithChatActivity" >
         </activity>
     </application>
 
