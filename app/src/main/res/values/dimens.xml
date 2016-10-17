@@ -15,4 +15,6 @@
     <dimen name="chat_progress_width">24dp</dimen>
     <dimen name="chat_item_radius">30dp</dimen>
 
+    <dimen name="button_border_less_margin">-8dp</dimen>
+
 </resources>

@@ -1,11 +1,19 @@
 package com.ufo.widgetdemo.recyclerview.chat;
 
+import android.app.Service;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.os.Vibrator;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static android.content.Context.CLIPBOARD_SERVICE;
 
 /**
  * Created by tjpld on 2016/10/10.
@@ -20,7 +28,7 @@ public class Utils {
     }
 
     public static String date2string(Date date) {
-        long different =  new Date().getTime()-date.getTime() ;
+        long different = new Date().getTime() - date.getTime();
 
         long secondsInMilli = 1000;
         long minutesInMilli = secondsInMilli * 60;
@@ -81,5 +89,44 @@ public class Utils {
     public static Date string2date(String date, String format) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat(format);
         return dateFormat.parse(date);
+    }
+
+    public static int getStatusBarHeight(Context context) {
+        Class<?> c = null;
+        Object obj = null;
+        Field field = null;
+        int x = 0, statusBarHeight = 0;
+        try {
+            c = Class.forName("com.android.internal.R$dimen");
+            obj = c.newInstance();
+            field = c.getField("status_bar_height");
+            x = Integer.parseInt(field.get(obj).toString());
+            statusBarHeight = context.getResources().getDimensionPixelSize(x);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        return statusBarHeight;
+    }
+
+    public static int getActionBarHeight(Context context) {
+        int actionBarHeight = 0;
+        TypedValue tv = new TypedValue();
+        if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
+        }
+        return actionBarHeight;
+    }
+
+    public static void copyText(String text, Context context) {
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+        ClipData textCd = ClipData.newPlainText("text", text);
+        clipboard.setPrimaryClip(textCd);
+    }
+
+    public static void vibrator(Context context) {
+        Vibrator vib = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
+
+        long[] pattern = {0, 1};
+        vib.vibrate(pattern, -1);
     }
 }

@@ -4,6 +4,8 @@
 
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!--震动-->
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:allowBackup="true"
@@ -45,9 +47,13 @@
             android:name=".recyclerview.cardview.RecyclerViewWithCardViewActivity"
             android:label="RecyclerViewWithCardViewActivity">
         </activity>
-        <activity android:name=".recyclerview.sticky.StickyListActivity">
+        <activity
+            android:name=".recyclerview.sticky.StickyListActivity"
+            android:label="StickyListActivity">
         </activity>
-        <activity android:name=".recyclerview.chat.RecyclerViewWithChatActivity" >
+        <activity
+            android:name=".recyclerview.chat.RecyclerViewWithChatActivity"
+            android:label="RecyclerViewWithChatActivity">
         </activity>
     </application>
 

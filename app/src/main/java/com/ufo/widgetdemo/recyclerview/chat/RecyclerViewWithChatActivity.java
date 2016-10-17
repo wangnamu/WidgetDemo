@@ -5,12 +5,14 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
@@ -28,7 +30,7 @@ import sj.keyboard.widget.FuncLayout;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 
-public class RecyclerViewWithChatActivity extends AppCompatActivity implements FuncLayout.OnFuncKeyBoardListener {
+public class RecyclerViewWithChatActivity extends AppCompatActivity implements FuncLayout.OnFuncKeyBoardListener, RecyclerViewWithChatAdapter.ChatTooltipsItemClickListener {
 
     private static final String KEY_CHAT = "KEY_CHAT";
     private static final String KEY_POSITION = "KEY_POSITION";
@@ -50,11 +52,27 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity implements F
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_view_with_chat);
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         initData();
         initRecyclerView();
         initKeyBoardBar();
+
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void initData() {
         mData = new ArrayList<>();
@@ -70,6 +88,7 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity implements F
             e.printStackTrace();
         }
         mData.add(chatModel1);
+
 
         ChatModel chatModel2 = new ChatModel();
         chatModel2.setContent("测试一下2");
@@ -126,6 +145,8 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity implements F
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_chat);
 
         mAdapter = new RecyclerViewWithChatAdapter(mData, this);
+        mAdapter.setChatTooltipsItemClickListener(this);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(true);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -281,5 +302,20 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity implements F
         mEkBar.reset();
     }
 
+
+    @Override
+    public void copyItem(ChatModel chatModel) {
+        Utils.copyText(chatModel.getContent(), this);
+    }
+
+    @Override
+    public void forwardItem(ChatModel chatModel) {
+
+    }
+
+    @Override
+    public void delItem(ChatModel chatModel) {
+
+    }
 
 }
