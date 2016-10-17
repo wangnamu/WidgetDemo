@@ -3,7 +3,6 @@ package com.ufo.widgetdemo.recyclerview.chat;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,6 @@ public class Tooltips extends PopupWindow {
     private LayoutInflater mInflater;
 
     private TooltipsItemClickListener mTooltipsItemClickListener;
-
 
 
     private Object mObj;
@@ -84,8 +82,10 @@ public class Tooltips extends PopupWindow {
             int[] location = new int[2];
             parent.getLocationInWindow(location);
 
+            getContentView().measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+
             int yInWindow = location[1];
-            int yInShow = -110 - parent.getHeight() - parent.getPaddingBottom() - parent.getPaddingTop() - MARGIN;
+            int yInShow = -getContentView().getMeasuredHeight() - parent.getHeight() + MARGIN;
             int y = yInShow;
 
             if (yInWindow + yInShow <= Utils.getActionBarHeight(mContext) + Utils.getStatusBarHeight(mContext)) {
