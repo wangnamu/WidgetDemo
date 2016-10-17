@@ -79,18 +79,18 @@ public class Tooltips extends PopupWindow {
 
     public void show(View parent) {
         if (!this.isShowing()) {
-            int[] location = new int[2];
-            parent.getLocationInWindow(location);
+//            int[] location = new int[2];
+//            parent.getLocationInWindow(location);
 
             getContentView().measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
 
-            int yInWindow = location[1];
+//            int yInWindow = location[1];
             int yInShow = -getContentView().getMeasuredHeight() - parent.getHeight() + MARGIN;
             int y = yInShow;
 
-            if (yInWindow + yInShow <= Utils.getActionBarHeight(mContext) + Utils.getStatusBarHeight(mContext)) {
-                y = -MARGIN;
-            }
+//            if (yInWindow + yInShow <= Utils.getActionBarHeight(mContext) + Utils.getStatusBarHeight(mContext)) {
+//                y = -MARGIN;
+//            }
             this.showAsDropDown(parent, parent.getLayoutParams().width / 2, y);
         } else {
             this.dismiss();
