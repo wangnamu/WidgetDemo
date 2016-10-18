@@ -1,13 +1,14 @@
 package com.ufo.widgetdemo.recyclerview.sticky;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
-import com.turingtechnologies.materialscrollbar.INameableAdapter;
 import com.ufo.widgetdemo.DataModel;
 import com.ufo.widgetdemo.R;
 
@@ -18,7 +19,8 @@ import java.util.List;
  */
 
 public class StickyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> , INameableAdapter {
+        implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder>,
+        FastScrollRecyclerView.SectionedAdapter {
 
     private List<DataModel> mData;
     private Context mContext;
@@ -72,13 +74,15 @@ public class StickyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
 
-    //根据首字母快速索引
+
+    @NonNull
     @Override
-    public Character getCharacterForElement(int element) {
-        Character c = mData.get(element).getTitle().charAt(0);
-        if(Character.isDigit(c)){
+    public String getSectionName(int position) {
+
+        Character c = mData.get(position).getTitle().charAt(0);
+        if (Character.isDigit(c)) {
             c = '#';
         }
-        return c;
+        return c.toString();
     }
 }

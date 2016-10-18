@@ -5,7 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/WidgetDemo.iml" filepath="$PROJECT_DIR$/WidgetDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/fabtoolbar/fabtoolbar.iml" filepath="$PROJECT_DIR$/fabtoolbar/fabtoolbar.iml" />
-      <module fileurl="file://$PROJECT_DIR$/material-scrollbar/material-scrollbar.iml" filepath="$PROJECT_DIR$/material-scrollbar/material-scrollbar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/recyclerview-fastscroll/recyclerview-fastscroll.iml" filepath="$PROJECT_DIR$/recyclerview-fastscroll/recyclerview-fastscroll.iml" />
       <module fileurl="file://$PROJECT_DIR$/sticky-headers-recyclerview/sticky-headers-recyclerview.iml" filepath="$PROJECT_DIR$/sticky-headers-recyclerview/sticky-headers-recyclerview.iml" />
       <module fileurl="file://$PROJECT_DIR$/xhsEmoticonsKeyboard/xhsEmoticonsKeyboard.iml" filepath="$PROJECT_DIR$/xhsEmoticonsKeyboard/xhsEmoticonsKeyboard.iml" />
     </modules>

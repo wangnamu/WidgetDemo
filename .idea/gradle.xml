@@ -11,7 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/fabtoolbar" />
-            <option value="$PROJECT_DIR$/material-scrollbar" />
+            <option value="$PROJECT_DIR$/recyclerview-fastscroll" />
             <option value="$PROJECT_DIR$/sticky-headers-recyclerview" />
             <option value="$PROJECT_DIR$/xhsEmoticonsKeyboard" />
           </set>

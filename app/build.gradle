@@ -49,8 +49,9 @@ dependencies {
     compile project(':fabtoolbar')
     //带分组控件
     compile project(':sticky-headers-recyclerview')
-    compile project(':material-scrollbar')
+    //表情键盘
     compile project(':xhsEmoticonsKeyboard')
+    //快速索引
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
@@ -61,5 +62,5 @@ dependencies {
     //图片变形
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     testCompile 'junit:junit:4.12'
-
+    compile project(':recyclerview-fastscroll')
 }

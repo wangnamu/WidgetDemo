@@ -4,12 +4,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
-import com.turingtechnologies.materialscrollbar.AlphabetIndicator;
-import com.turingtechnologies.materialscrollbar.DragScrollBar;
 import com.ufo.widgetdemo.DataModel;
 import com.ufo.widgetdemo.R;
 
@@ -22,7 +20,7 @@ import java.util.Locale;
 
 public class StickyListActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
+    private FastScrollRecyclerView mRecyclerView;
     private StickyListAdapter mAdapter;
     private List<DataModel> mData = new ArrayList<>();
 
@@ -54,8 +52,9 @@ public class StickyListActivity extends AppCompatActivity {
     }
 
 
-    private void initControl(){
-        mRecyclerView = (RecyclerView) findViewById(R.id.sticky_header_recyclerview);
+    private void initControl() {
+
+        mRecyclerView = (FastScrollRecyclerView) findViewById(R.id.sticky_header_recyclerview);
 
         mAdapter = new StickyListAdapter(mData, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -69,12 +68,10 @@ public class StickyListActivity extends AppCompatActivity {
 
         mRecyclerView.setAdapter(mAdapter);
 
-        //索引
-        ((DragScrollBar) findViewById(R.id.dragScrollBar)).setIndicator(new AlphabetIndicator(this), true);
     }
 
 
-    private void initData(){
+    private void initData() {
         mData.add(new DataModel("Apple", null, null));
         mData.add(new DataModel("Ameircan", null, null));
         mData.add(new DataModel("Affica", null, null));

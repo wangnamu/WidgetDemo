@@ -2,7 +2,7 @@
   <library name="support-v4-23.0.1">
     <ANNOTATIONS>
       <root url="jar://$PROJECT_DIR$/fabtoolbar/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/annotations.zip!/" />
-      <root url="jar://$PROJECT_DIR$/material-scrollbar/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/recyclerview-fastscroll/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/annotations.zip!/" />
       <root url="jar://$PROJECT_DIR$/xhsEmoticonsKeyboard/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
