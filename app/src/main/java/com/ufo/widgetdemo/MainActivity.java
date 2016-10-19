@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +19,9 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
+import android.widget.TextView;
+
+import com.ufo.widgetdemo.common.BadgeView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,14 +76,33 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (tab != null) {
+                View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.tab_custom, null);
+                TextView textView = (TextView) view.findViewById(R.id.tab_custom_title);
+                textView.setText(mMap.get(i));
+
+                tab.setCustomView(view);
+
+                BadgeView badgeView = new BadgeView(MainActivity.this);
+                badgeView.setTargetView(view);
+                badgeView.setBadgeCount(1);
+            }
+        }
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
                 animateFab(tab.getPosition());
+
+                if (tab != tabLayout.getTabAt(0)) {
+                    tabLayout.getTabAt(0).getCustomView().setSelected(false);
+                }
             }
 
             @Override
@@ -94,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             }
         });
 
+        tabLayout.getTabAt(0).getCustomView().setSelected(true);
 
         mFab = (FloatingActionButton) findViewById(R.id.fab);
 
@@ -194,8 +217,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return mMap.get(position);
+            return null;
+//            return mMap.get(position);
         }
+
+
     }
 
 
