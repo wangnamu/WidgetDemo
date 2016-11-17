@@ -1,1 +1,1 @@
-include ':app', ":fabtoolbar", ':sticky-headers-recyclerview', ':xhsEmoticonsKeyboard', ':recyclerview-fastscroll'
+include ':app', ":fabtoolbar", ':sticky-headers-recyclerview', ':xhsEmoticonsKeyboard', ':recyclerview-fastscroll','material-scrollbar'

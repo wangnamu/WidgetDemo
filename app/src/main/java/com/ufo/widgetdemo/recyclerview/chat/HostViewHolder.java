@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.ufo.widgetdemo.R;
+import com.ufo.widgetdemo.Utils;
 
 import java.util.Date;
 

@@ -1,8 +1,6 @@
 package com.ufo.widgetdemo.recyclerview.chat;
 
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
@@ -14,10 +12,12 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.ufo.widgetdemo.R;
+import com.ufo.widgetdemo.Utils;
 
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
@@ -46,6 +46,20 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity implements F
 
     private MyHandler mHandler = new MyHandler(this);
 
+    private ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+
+            if (mRecyclerView.computeVerticalScrollRange() >= mRecyclerView.getHeight()) {
+                linearLayoutManager.setStackFromEnd(true);
+            } else {
+                linearLayoutManager.setStackFromEnd(false);
+            }
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +76,29 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity implements F
         initKeyBoardBar();
 
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(mOnGlobalLayoutListener);
+
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mEkBar.reset();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mRecyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(mOnGlobalLayoutListener);
+        } else {
+            mRecyclerView.getViewTreeObserver().removeGlobalOnLayoutListener(mOnGlobalLayoutListener);
+        }
+    }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -148,7 +185,9 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity implements F
         mAdapter.setChatTooltipsItemClickListener(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setStackFromEnd(true);
+        //layoutManager.setStackFromEnd(true);
+
+
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
 
@@ -219,7 +258,6 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity implements F
 
             int position = mData.size() - 1;
             mAdapter.notifyItemInserted(position);
-            //mRecyclerView.smoothScrollToPosition(position);
             scrollToPosition(position);
 
             mEkBar.getEtChat().getText().clear();
@@ -296,11 +334,6 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity implements F
     public void OnFuncClose() {
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mEkBar.reset();
-    }
 
 
     @Override
@@ -317,5 +350,6 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity implements F
     public void delItem(ChatModel chatModel) {
 
     }
+
 
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ufo.widgetdemo.R;
+import com.ufo.widgetdemo.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

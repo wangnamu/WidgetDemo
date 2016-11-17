@@ -113,11 +113,8 @@ public class ExpandCheckedActivity extends AppCompatActivity {
                     child.setChecked(false);
                 }
 
-
-
                 boolean checked = mData.get(groupPosition).isChildrenCheckedAll();
                 mData.get(groupPosition).setChecked(checked);
-
 
                 mAdapter.notifyDataSetChanged();
                 return false;
@@ -276,8 +273,6 @@ public class ExpandCheckedActivity extends AppCompatActivity {
             } else {
                 holder.mExpandImage.setBackgroundResource(R.drawable.ic_expand_more_24dp);
             }
-
-
 
 
             holder.mParentCheckBox.setOnClickListener(new View.OnClickListener() {

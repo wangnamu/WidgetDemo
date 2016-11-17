@@ -12,7 +12,6 @@ public class ChildModel implements IChild {
 
     private boolean isChecked;
 
-
     @Override
     public String getDisplayName() {
         return displayName;

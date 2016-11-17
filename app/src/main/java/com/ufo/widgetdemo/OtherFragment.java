@@ -30,12 +30,12 @@ public class OtherFragment extends Fragment {
     public OtherFragment() {
         mData = new ArrayList<>();
         mData.add(new DataModel("none", "遮罩", ""));
+        mData.add(new DataModel("none", "ExpandTabView", ""));
         mData.add(new DataModel("none", "等待条dialog", ""));
         mData.add(new DataModel("none", "选择时间dialog", ""));
         mData.add(new DataModel("none", "搜索", ""));
         mData.add(new DataModel("none", "选择联系人", ""));
         mData.add(new DataModel("none", "表单", ""));
-
 
     }
 

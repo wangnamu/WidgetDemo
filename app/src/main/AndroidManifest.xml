@@ -4,7 +4,7 @@
 
     <!-- To access Google+ APIs: -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!--震动-->
+    <!-- 震动 -->
     <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
@@ -54,6 +54,8 @@
         <activity
             android:name=".recyclerview.chat.RecyclerViewWithChatActivity"
             android:label="RecyclerViewWithChatActivity">
+        </activity>
+        <activity android:name=".recyclerview.picker.RecyclerViewWithPickerActivity">
         </activity>
     </application>
 

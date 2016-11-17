@@ -27,6 +27,12 @@ public class Utils {
         return width;
     }
 
+    public static int getScreenHeight(Context context) {
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        int hegiht = dm.heightPixels;
+        return hegiht;
+    }
+
     public static String date2string(Date date) {
         long different = new Date().getTime() - date.getTime();
 
@@ -117,12 +123,14 @@ public class Utils {
         return actionBarHeight;
     }
 
+    //复制
     public static void copyText(String text, Context context) {
         ClipboardManager clipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
         ClipData textCd = ClipData.newPlainText("text", text);
         clipboard.setPrimaryClip(textCd);
     }
 
+    //震动
     public static void vibrator(Context context) {
         Vibrator vib = (Vibrator) context.getSystemService(Service.VIBRATOR_SERVICE);
 
