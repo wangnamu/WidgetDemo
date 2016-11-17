@@ -1,4 +1,4 @@
-package com.ufo.widgetdemo.recyclerview.chat;
+package com.ufo.widgetdemo;
 
 import android.app.Service;
 import android.content.ClipData;
