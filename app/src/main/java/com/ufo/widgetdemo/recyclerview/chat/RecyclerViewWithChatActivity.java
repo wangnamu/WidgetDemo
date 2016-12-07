@@ -99,7 +99,6 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity implements F
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -327,13 +326,14 @@ public class RecyclerViewWithChatActivity extends AppCompatActivity implements F
 
     @Override
     public void OnFuncPop(int height) {
-        scrollToPosition(mData.size() - 1);
+        if (mData.size() > 0) {
+            scrollToPosition(mData.size() - 1);
+        }
     }
 
     @Override
     public void OnFuncClose() {
     }
-
 
 
     @Override
